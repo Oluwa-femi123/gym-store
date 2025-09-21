@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEXO - Gear Up Every Season Every Workout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d6e7f0 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #2d3748;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #2d3748;
+        }
+
+        .nav-links a:hover:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #2d3748;
+            animation: slideIn 0.3s ease;
+        }
+
+        .nav-links a.active {
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .login-btn {
+            background: #000;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .cart-btn {
+            background: white;
+            border: 2px solid #000;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .cart-btn:hover {
+            background: #000;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+            min-height: 80vh;
+            padding: 40px 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            color: #1a202c;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            height: 250px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a202c;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 900;
+            color: #000;
+            margin-bottom: 15px;
+        }
+
+        .product-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: #000;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #333;
+        }
+
+        /* Hero Section for Home */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 6vw, 72px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 40px;
+            color: #1a202c;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 .highlight {
+            color: #666;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .btn-primary {
+            background: #000;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #000;
+            padding: 16px 32px;
+            border: 2px solid #000;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: #000;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .stats-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .stats-text {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            max-width: 250px;
+        }
+
+        /* Hero Image */
+        .hero-image {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .model-image {
+            width: 100%;
+            max-width: 500px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .model-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.3"/><circle cx="20" cy="30" r="1" fill="white" opacity="0.5"/><circle cx="80" cy="70" r="1.5" fill="white" opacity="0.4"/></svg>');
+        }
+
+        .model-overlay {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+        }
+
+        .model-overlay h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .model-overlay p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: white;
+        }
+
+        .play-button::before {
+            content: '▶';
+            font-size: 24px;
+            color: #000;
+            margin-left: 3px;
+        }
+
+        .video-preview {
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 120px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .video-preview:hover {
+            transform: scale(1.05);
+        }
+
+        .video-preview::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-preview::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-45%, -50%);
+            color: #000;
+            font-size: 12px;
+            z-index: 2;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        /* Sign In Page Styles */
+        .signin-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 80vh;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .signin-content {
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .signin-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .signin-title {
+            font-size: 36px;
+            font-weight: 900;
+            color: #1a202c;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .signin-subtitle {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .signin-form {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #000;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+        }
+
+        .password-input-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            font-size: 16px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            opacity: 1;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .checkbox-container input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .forgot-password {
+            color: #000;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: opacity 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            opacity: 0.7;
+        }
+
+        .signin-btn {
+            width: 100%;
+            background: #000;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .signin-btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .divider span {
+            background: #f0f4f8;
+            padding: 0 20px;
+            color: #666;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-signin {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-decoration: none;
+            color: #2d3748;
+        }
+
+        .social-btn:hover {
+            border-color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .google-btn .social-icon {
+            background: #4285f4;
+            color: white;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .apple-btn .social-icon {
+            font-size: 18px;
+        }
+
+        .facebook-btn .social-icon {
+            background: #1877f2;
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+        }
+
+        .signin-footer {
+            text-align: center;
+            color: #666;
+        }
+
+        .signup-link {
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            transition: opacity 0.3s ease;
+        }
+
+        .signup-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Sign In Visual Side */
+        .signin-visual {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 60px 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signin-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="30" r="1.5" fill="white" opacity="0.2"/><circle cx="60" cy="70" r="1" fill="white" opacity="0.15"/></svg>');
+        }
+
+        .visual-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .athlete-showcase h3 {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .athlete-showcase p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .benefits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: translateX(10px);
+        }
+
+        .benefit-icon {
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .benefit-item span:last-child {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-image {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .video-preview {
+                position: static;
+                margin-top: 20px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            /* Sign In Mobile Styles */
+            .signin-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .signin-content {
+                padding: 20px;
+            }
+
+            .signin-title {
+                font-size: 28px;
+            }
+
+            .signin-visual {
+                order: -1;
+                padding: 40px 20px;
+            }
+
+            .athlete-showcase h3 {
+                font-size: 24px;
+            }
+
+            .benefits-list {
+                gap: 15px;
+            }
+
+            .benefit-item {
+                padding: 15px;
+            }
+
+            .form-options {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo" onclick="showPage('home')">VEXO</div>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showPage('shop')">Shop</a></li>
+                    <li><a href="#" onclick="showPage('men')">Men</a></li>
+                    <li><a href="#" onclick="showPage('women')">Women</a></li>
+                    <li><a href="#" onclick="showPage('trending')">Trending</a></li>
+                    <li><a href="#" onclick="showPage('seasonal')">Seasonal</a></li>
+                    <li><a href="#" onclick="showPage('accessories')">Accessories</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <a href="#" class="login-btn" onclick="showPage('signin')">Sign In</a>
+                    <a href="#" class="cart-btn" onclick="showCart()">0</a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <main class="hero">
+                <div class="hero-content">
+                    <h1>GEAR UP EVERY SEASON<br><span class="highlight">EVERY WORKOUT</span></h1>
+                    
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="showPage('shop')">Shop Now</button>
+                        <button class="btn-secondary" onclick="showPage('shop')">Explore All</button>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="stats-icons">
+                            <div class="stat-icon" onclick="showStats(0)">4.8</div>
+                            <div class="stat-icon" onclick="showStats(1)">1K</div>
+                            <div class="stat-icon" onclick="showStats(2)">★</div>
+                        </div>
+                        <div class="stats-text">
+                            Join thousands of athletes who trust VEXO for premium performance gear. Rated 4.8/5 stars by our community.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-image">
+                    <div class="model-image">
+                        <div class="play-button" onclick="playVideo()"></div>
+                        <div class="model-overlay">
+                            <h3>Performance Collection</h3>
+                            <p>Premium athletic wear for every season</p>
+                        </div>
+                    </div>
+                    <div class="video-preview" onclick="playPreview()"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- SHOP PAGE -->
+        <div id="shop" class="page">
+            <div class="page-header">
+                <h2 class="page-title">Shop All</h2>
+                <p class="page-subtitle">Discover our complete collection of premium athletic wear designed for every athlete, every season, every workout.</p>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('all')">All Products</button>
+                <button class="filter-btn" onclick="filterProducts('new')">New Arrivals</button>
+                <button class="filter-btn" onclick="filterProducts('sale')">Sale</button>
+                <button class="filter-btn" onclick="filterProducts('featured')">Featured</button>
+            </div>
+            <div class="product-grid" id="shop-products">
+                <div class="product-card">
+                    <div class="product-image">Performance Jacket</div>
+					 <img src="jacket.jpg"></img>
+                    <div class="product-info">
+                        <h3 class="product-name">Pro Performance Jacket</h3>
+                        <p class="product-price">$129.99</p>
+                        <p class="product-description">Weather-resistant athletic jacket with moisture-wicking technology.</p>
+                        <button class="add-to-cart" onclick="addToCart('Pro Performance Jacket', 129.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #ff6b6b, #ffa726);">Training Shorts</div>
+					 <img src="shorts.jpg"></img>
+                    <div class="product-info">
+                        <h3 class="product-name">Elite Training Shorts</h3>
+                        <p class="product-price">$59.99</p>
+                        <p class="product-description">Lightweight shorts with 4-way stretch for maximum mobility.</p>
+                        <button class="add-to-cart" onclick="addToCart('Elite Training Shorts', 59.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #4ecdc4, #44a08d);">Athletic Shoes</div>
+					 <img src="boots.jpg"></img>
+                    <div class="product-info">
+                        <h3 class="product-name">Ultra Boost Runners</h3>
+						<p class="product-price">$189.99</p>
+                        <p class="product-description">High-performance running shoes with responsive cushioning.</p>
+                        <button class="add-to-cart" onclick="addToCart('Ultra Boost Runners', 189.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MEN PAGE -->
+        <div id="men" class="page">
+            <div class="page-header">
+                <h2 class="page-title">Men's Collection</h2>
+                <p class="page-subtitle">Premium athletic wear engineered for the modern athlete. Built tough, designed smart.</p>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('all')">All Men's</button>
+                <button class="filter-btn" onclick="filterProducts('tops')">Tops</button>
+                <button class="filter-btn" onclick="filterProducts('bottoms')">Bottoms</button>
+                <button class="filter-btn" onclick="filterProducts('footwear')">Footwear</button>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #2c3e50, #3498db);">Men's Tank Top</div>
+					  <img src="muscle.jpg"></img> 
+                    <div class="product-info">
+                        <h3 class="product-name">Muscle Fit Tank</h3>
+                        <p class="product-price">$39.99</p>
+                        <p class="product-description">Breathable muscle fit tank with sweat-wicking fabric.</p>
+                        <button class="add-to-cart" onclick="addToCart('Muscle Fit Tank', 39.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #8e44ad, #9b59b6");">Training Pants</div>
+					  <img src="power.jpg"></img> 
+                    <div class="product-info">
+                        <h3 class="product-name">Power Training Pants</h3>
+                        <p class="product-price">$79.99</p>
+                        <p class="product-description">Tapered fit training pants with zippered pockets.</p>
+                        <button class="add-to-cart" onclick="addToCart('Power Training Pants', 79.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #e67e22, #f39c12);">Athletic Hoodie</div>
+					  <img src="hoodie.jpg"></img> 
+                    <div class="product-info">
+                        <h3 class="product-name">Performance Hoodie</h3>
+                        <p class="product-price">$89.99</p>
+                        <p class="product-description">Heavyweight hoodie perfect for pre and post workout.</p>
+                        <button class="add-to-cart" onclick="addToCart('Performance Hoodie', 89.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WOMEN PAGE -->
+        <div id="women" class="page">
+            <div class="page-header">
+                <h2 class="page-title">Women's Collection</h2>
+                <p class="page-subtitle">Empowering athletic wear that moves with you. Designed for strength, built for style.</p>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('all')">All Women's</button>
+                <button class="filter-btn" onclick="filterProducts('activewear')">Activewear</button>
+                <button class="filter-btn" onclick="filterProducts('sports-bras')">Sports Bras</button>
+                <button class="filter-btn" onclick="filterProducts('leggings')">Leggings</button>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background: red ;");">Sports Bra</div>
+					  <img src="bra.jpg"></img> 
+                    <div class="product-info">
+                        <h3 class="product-name">High Support Sports Bra</h3>
+                        <p class="product-price">$49.99</p>
+                        <p class="product-description">Maximum support sports bra for high-intensity workouts.</p>
+                        <button class="add-to-cart" onclick="addToCart('High Support Sports Bra', 49.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: grey;">Yoga Leggings</div>
+					  <img src="leggings.jpg"></img> 
+                    <div class="product-info">
+                        <h3 class="product-name">Sculpt Leggings</h3>
+                        <p class="product-price">$69.99</p>
+                        <p class="product-description">Buttery-soft leggings with sculpting compression technology.</p>
+                        <button class="add-to-cart" onclick="addToCart('Sculpt Leggings', 69.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: cream;">Crop Top</div>
+					  <img src="crop top.jpg"></img> 
+                    <div class="product-info">
+                        <h3 class="product-name">Seamless Crop Top</h3>
+                        <p class="product-price">$34.99</p>
+                        <p class="product-description">Ultra-soft seamless crop top with removable padding.</p>
+                        <button class="add-to-cart" onclick="addToCart('Seamless Crop Top', 34.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRENDING PAGE -->
+        <div id="trending" class="page">
+            <div class="page-header">
+                <h2 class="page-title">Trending Now</h2>
+                <p class="page-subtitle">The hottest items our community can't get enough of. Join the trend setters.</p>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('all')">All Trending</button>
+                <button class="filter-btn" onclick="filterProducts('this-week')">This Week</button>
+                <button class="filter-btn" onclick="filterProducts('viral')">Going Viral</button>
+                <button class="filter-btn" onclick="filterProducts('influencer')">Influencer Picks</button>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #667eea, #764ba2);">🔥 Trending Set</div>
+					  <img src="matching.jpg"></img> 
+                    <div class="product-info">
+                        <h3 class="product-name">Viral Matching Set</h3>
+                        <p class="product-price">$89.99</p>
+                        <p class="product-description">The set everyone's talking about - crop top and leggings combo.</p>
+                        <button class="add-to-cart" onclick="addToCart('Viral Matching Set', 89.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #f093fb, #f5576c);">✨ Popular Pick</div>
+					  <img src="viral.jpg"></img> 
+                    <div class="product-info">
+                        <h3 class="product-name">Influencer Approved Jacket</h3>
+                        <p class="product-price">$149.99</p>
+                        <p class="product-description">Featured by top fitness influencers worldwide.</p>
+                        <button class="add-to-cart" onclick="addToCart('Influencer Approved Jacket', 149.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #4facfe, #00f2fe);">📈 Rising Fast</div>
+					  <img src="tiktok.jpg"></img> 
+                    <div class="product-info">
+                        <h3 class="product-name">TikTok Famous Shorts</h3>
+                        <p class="product-price">$54.99</p>
+                        <p class="product-description">Going viral on social media - get yours before they sell out.</p>
+                        <button class="add-to-cart" onclick="addToCart('TikTok Famous Shorts', 54.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEASONAL PAGE -->
+        <div id="seasonal" class="page">
+            <div class="page-header">
+                <h2 class="page-title">Seasonal Collection</h2>
+                <p class="page-subtitle">Gear designed for the current season. Stay comfortable and stylish no matter the weather.</p>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('all')">All Seasonal</button>
+                <button class="filter-btn" onclick="filterProducts('summer')">Summer</button>
+                <button class="filter-btn" onclick="filterProducts('winter')">Winter</button>
+                <button class="filter-btn" onclick="filterProducts('transition')">Transition</button>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #fa709a, #fee140);">☀️ Summer Ready</div>
+					 <img src="uv.jpg"></img>
+                    <div class="product-info">
+                        <h3 class="product-name">UV Protection Tee</h3>
+                        <p class="product-price">$44.99</p>
+                        <p class="product-description">UPF 50+ protection with cooling technology for summer workouts.</p>
+                        <button class="add-to-cart" onclick="addToCart('UV Protection Tee', 44.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #74b9ff, #0984e3);">❄️ Winter Gear</div>
+					 <img src="thermal.jpg"></img>
+                    <div class="product-info">
+                        <h3 class="product-name">Thermal Base Layer</h3>
+                        <p class="product-price">$64.99</p>
+                        <p class="product-description">Insulated base layer that keeps you warm during cold weather training.</p>
+                        <button class="add-to-cart" onclick="addToCart('Thermal Base Layer', 64.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #fd79a8, #fdcb6e);">🍂 Transition</div>
+					 <img src="wind jacket.jpg"></img>
+                    <div class="product-info">
+                        <h3 class="product-name">Lightweight Wind Jacket</h3>
+                        <p class="product-price">$94.99</p>
+                        <p class="product-description">Perfect for those in-between weather days with packable design.</p>
+                        <button class="add-to-cart" onclick="addToCart('Lightweight Wind Jacket', 94.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCESSORIES PAGE -->
+        <div id="accessories" class="page">
+            <div class="page-header">
+                <h2 class="page-title">Accessories</h2>
+                <p class="page-subtitle">Complete your workout look with our premium accessories designed to enhance performance.</p>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('all')">All Accessories</button>
+                <button class="filter-btn" onclick="filterProducts('bags')">Bags</button>
+                <button class="filter-btn" onclick="filterProducts('gear')">Training Gear</button>
+                <button class="filter-btn" onclick="filterProducts('tech')">Tech Accessories</button>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #2d3436, #636e72);">🎒 Gym Bag</div>
+					 <img src="bag.jpg"></img>
+                    <div class="product-info">
+                        <h3 class="product-name">Pro Gym Duffel</h3>
+                        <p class="product-price">$79.99</p>
+                        <p class="product-description">Spacious duffel bag with separate shoe compartment and water-resistant coating.</p>
+                        <button class="add-to-cart" onclick="addToCart('Pro Gym Duffel', 79.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #00b894, #00cec9);">🧤 Training Gloves</div>
+					 <img src="training gloves.jpg"></img>
+                    <div class="product-info">
+                        <h3 class="product-name">Grip Training Gloves</h3>
+                        <p class="product-price">$29.99</p>
+                        <p class="product-description">Enhanced grip gloves with wrist support for weightlifting and training.</p>
+                        <button class="add-to-cart" onclick="addToCart('Grip Training Gloves', 29.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(45deg, #6c5ce7, #a29bfe);">⌚ Smart Watch</div>
+					 <img src="smartwatch.jpg"></img>
+                    <div class="product-info">
+                        <h3 class="product-name">Fitness Tracker Pro</h3>
+                        <p class="product-price">$199.99</p>
+                        <p class="product-description">Advanced fitness tracker with heart rate monitoring and GPS.</p>
+                        <button class="add-to-cart" onclick="addToCart('Fitness Tracker Pro', 199.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIGN IN PAGE -->
+        <div id="signin" class="page">
+            <div class="signin-container">
+                <div class="signin-content">
+                    <div class="signin-header">
+                        <h2 class="signin-title">Welcome Back</h2>
+                        <p class="signin-subtitle">Sign in to your VEXO account to continue your fitness journey</p>
+                    </div>
+
+                    <div class="signin-form-container">
+                        <form id="signinForm" class="signin-form">
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required placeholder="Enter your email">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <div class="password-input-container">
+                                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                                    <button type="button" class="password-toggle" onclick="togglePassword()">
+                                        <span id="password-toggle-text">👁️</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-options">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="remember" name="remember">
+                                    <span class="checkmark"></span>
+                                    Remember me
+                                </label>
+                                <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot Password?</a>
+                            </div>
+
+                            <button type="submit" class="signin-btn">Sign In</button>
+                        </form>
+
+                        <div class="divider">
+                            <span>or continue with</span>
+                        </div>
+
+                        <div class="social-signin">
+                            <button class="social-btn google-btn" onclick="signInWithGoogle()">
+                                <span class="social-icon">G</span>
+                                Continue with Google
+                            </button>
+                            <button class="social-btn apple-btn" onclick="signInWithApple()">
+                                <span class="social-icon">🍎</span>
+                                Continue with Apple
+                            </button>
+                            <button class="social-btn facebook-btn" onclick="signInWithFacebook()">
+                                <span class="social-icon">f</span>
+                                Continue with Facebook
+                            </button>
+                        </div>
+
+                        <div class="signin-footer">
+                            <p>Don't have an account? <a href="#" onclick="showSignUp()" class="signup-link">Create Account</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="signin-visual">
+                    <div class="visual-content">
+                        <div class="athlete-showcase">
+                            <div class="showcase-text">
+                                <h3>Join 1000+ Athletes</h3>
+                                <p>Get exclusive access to new releases, member-only discounts, and personalized workout gear recommendations.</p>
+                            </div>
+                            <div class="benefits-list">
+                                <div class="benefit-item">
+                                    <span class="benefit-icon">⚡</span>
+                                    <span>Early access to new collections</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-icon">💰</span>
+                                    <span>Exclusive member discounts</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-icon">🎯</span>
+                                    <span>Personalized recommendations</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-icon">🚚</span>
+                                    <span>Free shipping on all orders</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cartCount = 0;
+        let currentPage = 'home';
+
+        // Page Navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageName).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`[onclick="showPage('${pageName}')"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            currentPage = pageName;
+            
+            // Add page transition effect
+            document.body.style.opacity = '0.9';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 200);
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Add to Cart functionality
+        function addToCart(productName, price) {
+            cartCount++;
+            document.querySelector('.cart-btn').textContent = cartCount;
+            
+            // Add animation to cart button
+            const cartBtn = document.querySelector('.cart-btn');
+            cartBtn.style.animation = 'none';
+            setTimeout(() => {
+                cartBtn.style.animation = 'float 0.5s ease';
+            }, 10);
+            
+            // Show confirmation
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #000;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                z-index: 1000;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.textContent = `${productName} added to cart!`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Filter Products
+        function filterProducts(category) {
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Add filter animation (in a real app, this would filter products)
+            const productGrid = document.querySelector(`#${currentPage} .product-grid`) || 
+                               document.querySelector('.product-grid');
+            if (productGrid) {
+                productGrid.style.opacity = '0.5';
+                productGrid.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    productGrid.style.opacity = '1';
+                    productGrid.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }
+
+        // Authentication
+        function showLogin() {
+            showPage('signin');
+        }
+
+        function showCart() {
+            alert(`Shopping Cart\n\nItems in cart: ${cartCount}\n\nFeatures:\n- View all items\n- Adjust quantities\n- Apply promo codes\n- Secure checkout`);
+        }
+
+        // Sign In Page Functions
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleText = document.getElementById('password-toggle-text');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleText.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleText.textContent = '👁️';
+            }
+        }
+
+        function signInWithGoogle() {
+            showNotification('🔑 Signing in with Google...', 'success');
+            setTimeout(() => {
+                alert('Welcome back!\n\n✅ Successfully signed in with Google\n\nRedirecting to your dashboard...');
+                showPage('home');
+            }, 1500);
+        }
+
+        function signInWithApple() {
+            showNotification('🍎 Signing in with Apple...', 'success');
+            setTimeout(() => {
+                alert('Welcome back!\n\n✅ Successfully signed in with Apple\n\nRedirecting to your dashboard...');
+                showPage('home');
+            }, 1500);
+        }
+
+        function signInWithFacebook() {
+            showNotification('📘 Signing in with Facebook...', 'success');
+            setTimeout(() => {
+                alert('Welcome back!\n\n✅ Successfully signed in with Facebook\n\nRedirecting to your dashboard...');
+                showPage('home');
+            }, 1500);
+        }
+
+        function showForgotPassword() {
+            const email = prompt('Enter your email address to reset your password:');
+            if (email) {
+                showNotification(`📧 Password reset link sent to ${email}`, 'success');
+            }
+        }
+
+        function showSignUp() {
+            alert('🚀 Create Account\n\nFeatures:\n- Quick registration process\n- Email verification\n- Welcome bonus\n- Instant access to member benefits\n\nWould redirect to sign-up page in a real application.');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : '#000'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                z-index: 1000;
+                animation: slideInRight 0.3s ease;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Handle sign in form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const signinForm = document.getElementById('signinForm');
+            if (signinForm) {
+                signinForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    const remember = document.getElementById('remember').checked;
+                    
+                    if (email && password) {
+                        showNotification('🔐 Signing you in...', 'info');
+                        
+                        // Simulate authentication delay
+                        setTimeout(() => {
+                            alert(`Welcome back!\n\n✅ Successfully signed in\n\nEmail: ${email}\nRemember me: ${remember ? 'Yes' : 'No'}\n\nRedirecting to your dashboard...`);
+                            
+                            // Update login button to show user is logged in
+                            document.querySelector('.login-btn').textContent = 'Account';
+                            document.querySelector('.login-btn').onclick = function() {
+                                alert('👤 Account Dashboard\n\n- Order History\n- Wishlist\n- Account Settings\n- Logout');
+                            };
+                            
+                            showPage('home');
+                        }, 1500);
+                    }
+                });
+            }
+        });
+
+        // Hero interactions
+        function playVideo() {
+            const playBtn = document.querySelector('.play-button');
+            playBtn.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            setTimeout(() => {
+                playBtn.style.transform = 'translate(-50%, -50%) scale(1)';
+                alert('🎥 Now Playing: VEXO Performance Collection\n\nFeatures:\n- Product highlights\n- Athlete testimonials\n- Behind the scenes footage');
+            }, 150);
+        }
+
+        function playPreview() {
+            const preview = document.querySelector('.video-preview');
+            preview.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                preview.style.transform = 'scale(1.05)';
+                alert('🎬 Video Preview: Athletic Training Session\n\n- High-intensity workout footage\n- Product performance testing\n- Professional athlete training');
+            }, 150);
+        }
+
+        function showStats(index) {
+            const messages = [
+                '⭐ Customer Rating: 4.8/5 Stars\n\nBased on 2,847 verified reviews\n- Product Quality: 4.9/5\n- Fit & Comfort: 4.8/5\n- Durability: 4.7/5',
+                '👥 Community: 1K+ Athletes\n\nJoin our growing community:\n- Professional athletes\n- Fitness enthusiasts\n- Weekend warriors\n- Fitness beginners',
+                '🏆 Premium Quality Guaranteed\n\nWhat sets us apart:\n- Premium materials\n- Rigorous testing\n- Lifetime warranty\n- Satisfaction guaranteed'
+            ];
+            alert(messages[index]);
+        }
+
+        // Add CSS animation for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+            
+            .product-grid {
+                transition: all 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add parallax effect to hero image
+        window.addEventListener('scroll', function() {
+            if (currentPage === 'home') {
+                const heroImage = document.querySelector('.hero-image');
+                const scrolled = window.pageYOffset;
+                const parallax = scrolled * 0.1;
+                if (heroImage) {
+                    heroImage.style.transform = `translateY(${parallax}px)`;
+                }
+            }
+        });
+
+        // Add smooth page transitions
+        document.querySelectorAll('.nav-links a, .logo').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.body.style.transition = 'all 0.3s ease';
+                document.body.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    document.body.style.transform = 'scale(1)';
+                }, 300);
+            });
+        });
+
+        // Add mobile menu toggle (for responsive design)
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
